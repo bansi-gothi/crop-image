@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+
+// Download Images
 export const DownloadImage = ({ uri, name }) => {
   // Convert data URI to Blob
   const dataURItoBlob = (dataURI) => {
@@ -26,4 +29,17 @@ export const DownloadImage = ({ uri, name }) => {
 
   // Clean up the Blob URL
   URL.revokeObjectURL(link.href);
+};
+
+// Debounce Effect
+export const useDebounceEffect = (fn, waitTime, deps) => {
+  useEffect(() => {
+    const t = setTimeout(() => {
+      fn.apply(undefined, deps);
+    }, waitTime);
+
+    return () => {
+      clearTimeout(t);
+    };
+  }, deps);
 };

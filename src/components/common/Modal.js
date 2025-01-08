@@ -1,8 +1,16 @@
+// External
 import { Dialog, DialogTitle } from "@mui/material";
+// Internal
+import CropImage from "../CropImage";
 
-import ImageCropper from "./ImageCropper";
-
-const Modal = ({ updateAvatar, onClose, open, imgSrc }) => (
+const Modal = ({
+  updateAvatar,
+  onClose,
+  open,
+  imgSrc,
+  aspect,
+  isCircularCrop,
+}) => (
   <Dialog
     fullWidth
     sx={{ minHeight: 300 }}
@@ -11,12 +19,14 @@ const Modal = ({ updateAvatar, onClose, open, imgSrc }) => (
     onClose={onClose}
   >
     <DialogTitle sx={{ p: (theme) => theme.spacing(3, 3, 2, 3) }}>
-      Upload Small Logo
+      Upload Image
     </DialogTitle>
-    <ImageCropper
+    <CropImage
       updateAvatar={updateAvatar}
       onClose={onClose}
       imgSrc={imgSrc}
+      aspect={aspect}
+      isCircularCrop={isCircularCrop}
     />
   </Dialog>
 );

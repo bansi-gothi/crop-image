@@ -1,12 +1,15 @@
+// External
 import { useRef, useState } from "react";
 import { Box, Button } from "@mui/material";
 
-import Modal from "./Modal";
-import NoFileImage from "src/assets";
+// Internal
+import Modal from "./common/Modal";
+import NoFileImage from "./common/NoFileImage";
 import { DownloadImage } from "src/util";
 
-const UploadLogo = () => {
+const ImageComponent = ({ height, name, aspect }) => {
   const avatarUrl = useRef("");
+
   const [modalOpen, setModalOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState("");
 
@@ -40,7 +43,7 @@ const UploadLogo = () => {
     if (blob) {
       file = new File(
         [blob],
-        `smallLogo_image_${Math.floor(Date.now() / 1000)}.png`,
+        `${name} - ${Math.floor(Date.now() / 1000)}.png`,
         {
           type: "image/png",
         }
@@ -71,23 +74,14 @@ const UploadLogo = () => {
           }}
         >
           {avatarUrl.current ? (
-            <>
-              <img
-                src={avatarUrl.current}
-                alt="Avatar"
-                style={{ borderRadius: "50%", height: "200px" }}
-              />
-              <Button
-                variant="contained"
-                color="success"
-                sx={{ marginTop: "16px" }}
-                onClick={() =>
-                  DownloadImage({ uri: avatarUrl.current, name: "small-logo" })
-                }
-              >
-                Download
-              </Button>
-            </>
+            <img
+              src={avatarUrl.current}
+              alt="Avatar"
+              style={{
+                borderRadius: name === "small" && "50%",
+                height: height,
+              }}
+            />
           ) : (
             <NoFileImage />
           )}
@@ -121,6 +115,21 @@ const UploadLogo = () => {
               },
             }}
           />
+          {avatarUrl.current && (
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ marginTop: "16px" }}
+              onClick={() =>
+                DownloadImage({
+                  uri: avatarUrl.current,
+                  name: `${name} - image - ${new Date()}`,
+                })
+              }
+            >
+              Download
+            </Button>
+          )}
         </Box>
       </Box>
       {modalOpen && (
@@ -129,10 +138,12 @@ const UploadLogo = () => {
           updateAvatar={updateAvatar}
           open={modalOpen}
           onClose={() => setModalOpen(false)}
+          aspect={aspect}
+          isCircularCrop={name === "small"}
         />
       )}
     </>
   );
 };
 
-export default UploadLogo;
+export default ImageComponent;

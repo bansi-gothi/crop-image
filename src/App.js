@@ -1,4 +1,5 @@
-import ImageCropper from "./sections/ImageCropper";
+// Internal
+import ImageCropper from "./components/ImageCropper";
 
 const App = () => <ImageCropper />;
 

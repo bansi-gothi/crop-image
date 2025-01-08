@@ -8,7 +8,7 @@ A React-based image cropping tool that allows users to crop images into **rounde
 - **Crop Images**:
   - Rounded shape cropping.
   - Rectangle shape cropping.
-- **Download Cropped Images**: Download the cropped images in your preferred format.
+- **Download Cropped Images**: Allows to download cropped images.
 - Responsive design for seamless user experience across devices.
 
 ---
@@ -39,9 +39,8 @@ A React-based image cropping tool that allows users to crop images into **rounde
 
 1. Open the app in your browser.
 2. Upload an image using the "Choose file" button.
-3. Select the crop shape (rounded or rectangle).
-4. Adjust the crop area using the cropping tool.
-5. Download the cropped image using the "Download" button.
+3. Adjust the crop area using the cropping tool.
+4. Download the cropped image using the "Download" button.
 
 ---
 

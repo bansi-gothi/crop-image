@@ -1,14 +1,12 @@
 import React, { useState, useRef } from "react";
-import { Box, Button, Slider, Stack, Typography } from "@mui/material";
 
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
+import { Box, Button, Slider, Typography } from "@mui/material";
 
-import { canvasPreview } from "../canvasPreview";
-import { useDebounceEffect } from "../useDebounceEffect";
+import { canvasPreview } from "./common/canvasPreview";
+import { useDebounceEffect } from "../util";
 
-const ASPECT_RATIO = 2.3 / 1;
 const rotate = 0;
-const aspect = 2.3 / 1;
 
 const centerAspectCrop = (mediaWidth, mediaHeight, aspect) =>
   centerCrop(
@@ -25,10 +23,16 @@ const centerAspectCrop = (mediaWidth, mediaHeight, aspect) =>
     mediaHeight
   );
 
-const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
+const CropImage = ({
+  onClose,
+  updateAvatar,
+  imgSrc,
+  aspect = 1,
+  isCircularCrop = false,
+}) => {
   const previewCanvasRef = useRef(null);
   const imgRef = useRef(null);
-  const blobUrlRef = useRef("");
+
   const [crop, setCrop] = useState();
   const [completedCrop, setCompletedCrop] = useState();
   const [scale, setScale] = useState(1);
@@ -48,17 +52,21 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
         imgRef.current &&
         previewCanvasRef.current
       ) {
+        // We use canvasPreview as it's much faster than imgPreview.
         canvasPreview(
           imgRef.current,
           previewCanvasRef.current,
           completedCrop,
-          scale
+          scale,
+          rotate
         );
       }
     },
     100,
     [completedCrop, scale]
   );
+
+  console.log("-------isCircularCrop------", isCircularCrop);
 
   return (
     <Box px={3}>
@@ -84,17 +92,16 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
             crop={crop}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={(c) => setCompletedCrop(c)}
-            aspect={ASPECT_RATIO}
+            aspect={aspect}
+            // minWidth={400}
             minHeight={100}
+            circularCrop={isCircularCrop}
           >
             <img
               ref={imgRef}
               src={imgSrc}
               alt="Upload"
-              style={{
-                transform: `scale(${scale}) rotate(${rotate}deg)`,
-                maxHeight: "100vh",
-              }}
+              style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
               onLoad={onImageLoad}
             />
           </ReactCrop>
@@ -146,4 +153,4 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
     </Box>
   );
 };
-export default ImageCropper;
+export default CropImage;

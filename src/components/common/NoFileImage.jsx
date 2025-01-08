@@ -1,6 +1,7 @@
+// External
 import { Box } from "@mui/material";
-
-import NoFile from "./images/thumbnail.jpg";
+// Internal
+import NoFile from "../../assets/images/thumbnail.jpg";
 
 const NoFileImage = () => (
   <Box sx={{ height: "200px", width: "200px" }}>
